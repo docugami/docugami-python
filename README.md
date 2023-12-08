@@ -18,7 +18,7 @@ pip install docugami
 
 ## Usage
 
-The full API of this library can be found in [api.md](https://www.github.com/stainless-sdks/docugami-python/blob/main/api.md).
+The full API of this library can be found in [api.md](https://www.github.com/docugami/docugami-python/blob/main/api.md).
 
 ```python
 import os
@@ -263,7 +263,7 @@ document = response.parse()  # get the object that `documents.list()` would have
 print(document.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/docugami-python/tree/main/src/docugami/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/docugami/docugami-python/tree/main/src/docugami/_response.py) object.
 
 ### Configuring the HTTP client
 
@@ -301,7 +301,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/docugami-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/docugami/docugami-python/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
