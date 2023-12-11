@@ -36,11 +36,11 @@ def upload_to_named_docset(
     if not docset_id:
         raise Exception(f"Could not create or detect docset_id for docset: {docset_name}")
 
-    document_list_response = client.documents.list(limit=int(1e5))  # TODO: paginate
+    document_list_response = client.documents.list()
     conflict_docs: List[Document] = []
     uploaded_docs: List[Document] = []
     new_names = [Path(f).name for f in local_paths]
-    conflict_docs = [d for d in document_list_response.documents if Path(d.name).name in new_names]
+    conflict_docs = [d for d in document_list_response if Path(d.name).name in new_names]
     conflict_names = [Path(d.name).name for d in conflict_docs]
 
     # Upload any new files that don't have name conflicts
