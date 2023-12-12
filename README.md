@@ -207,7 +207,7 @@ from docugami import Docugami
 
 # Configure the default for all requests:
 client = Docugami(
-    # default is 60s
+    # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
