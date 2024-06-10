@@ -1,40 +1,53 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import Project, project_list_params
+from ...types import project_list_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import maybe_transform
+from ..._compat import cached_property
 from .artifacts import (
-    Artifacts,
-    AsyncArtifacts,
-    ArtifactsWithRawResponse,
-    AsyncArtifactsWithRawResponse,
+    ArtifactsResource,
+    AsyncArtifactsResource,
+    ArtifactsResourceWithRawResponse,
+    AsyncArtifactsResourceWithRawResponse,
+    ArtifactsResourceWithStreamingResponse,
+    AsyncArtifactsResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ...pagination import SyncProjectsPage, AsyncProjectsPage
-from ..._base_client import AsyncPaginator, make_request_options
+from ..._base_client import (
+    AsyncPaginator,
+    make_request_options,
+)
+from ...types.project import Project
+from .artifacts.artifacts import ArtifactsResource, AsyncArtifactsResource
 
-if TYPE_CHECKING:
-    from ..._client import Docugami, AsyncDocugami
-
-__all__ = ["Projects", "AsyncProjects"]
+__all__ = ["ProjectsResource", "AsyncProjectsResource"]
 
 
-class Projects(SyncAPIResource):
-    artifacts: Artifacts
-    with_raw_response: ProjectsWithRawResponse
+class ProjectsResource(SyncAPIResource):
+    @cached_property
+    def artifacts(self) -> ArtifactsResource:
+        return ArtifactsResource(self._client)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.artifacts = Artifacts(client)
-        self.with_raw_response = ProjectsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> ProjectsResourceWithRawResponse:
+        return ProjectsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ProjectsResourceWithStreamingResponse:
+        return ProjectsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -59,6 +72,8 @@ class Projects(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/projects/{id}",
             options=make_request_options(
@@ -163,6 +178,8 @@ class Projects(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/projects/{id}",
@@ -173,14 +190,18 @@ class Projects(SyncAPIResource):
         )
 
 
-class AsyncProjects(AsyncAPIResource):
-    artifacts: AsyncArtifacts
-    with_raw_response: AsyncProjectsWithRawResponse
+class AsyncProjectsResource(AsyncAPIResource):
+    @cached_property
+    def artifacts(self) -> AsyncArtifactsResource:
+        return AsyncArtifactsResource(self._client)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.artifacts = AsyncArtifacts(client)
-        self.with_raw_response = AsyncProjectsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncProjectsResourceWithRawResponse:
+        return AsyncProjectsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncProjectsResourceWithStreamingResponse:
+        return AsyncProjectsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -205,6 +226,8 @@ class AsyncProjects(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/projects/{id}",
             options=make_request_options(
@@ -309,6 +332,8 @@ class AsyncProjects(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/projects/{id}",
@@ -319,9 +344,9 @@ class AsyncProjects(AsyncAPIResource):
         )
 
 
-class ProjectsWithRawResponse:
-    def __init__(self, projects: Projects) -> None:
-        self.artifacts = ArtifactsWithRawResponse(projects.artifacts)
+class ProjectsResourceWithRawResponse:
+    def __init__(self, projects: ProjectsResource) -> None:
+        self._projects = projects
 
         self.retrieve = to_raw_response_wrapper(
             projects.retrieve,
@@ -333,10 +358,14 @@ class ProjectsWithRawResponse:
             projects.delete,
         )
 
+    @cached_property
+    def artifacts(self) -> ArtifactsResourceWithRawResponse:
+        return ArtifactsResourceWithRawResponse(self._projects.artifacts)
 
-class AsyncProjectsWithRawResponse:
-    def __init__(self, projects: AsyncProjects) -> None:
-        self.artifacts = AsyncArtifactsWithRawResponse(projects.artifacts)
+
+class AsyncProjectsResourceWithRawResponse:
+    def __init__(self, projects: AsyncProjectsResource) -> None:
+        self._projects = projects
 
         self.retrieve = async_to_raw_response_wrapper(
             projects.retrieve,
@@ -347,3 +376,45 @@ class AsyncProjectsWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             projects.delete,
         )
+
+    @cached_property
+    def artifacts(self) -> AsyncArtifactsResourceWithRawResponse:
+        return AsyncArtifactsResourceWithRawResponse(self._projects.artifacts)
+
+
+class ProjectsResourceWithStreamingResponse:
+    def __init__(self, projects: ProjectsResource) -> None:
+        self._projects = projects
+
+        self.retrieve = to_streamed_response_wrapper(
+            projects.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            projects.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            projects.delete,
+        )
+
+    @cached_property
+    def artifacts(self) -> ArtifactsResourceWithStreamingResponse:
+        return ArtifactsResourceWithStreamingResponse(self._projects.artifacts)
+
+
+class AsyncProjectsResourceWithStreamingResponse:
+    def __init__(self, projects: AsyncProjectsResource) -> None:
+        self._projects = projects
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            projects.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            projects.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            projects.delete,
+        )
+
+    @cached_property
+    def artifacts(self) -> AsyncArtifactsResourceWithStreamingResponse:
+        return AsyncArtifactsResourceWithStreamingResponse(self._projects.artifacts)

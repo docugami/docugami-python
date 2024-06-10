@@ -1,9 +1,8 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import os
-import asyncio
 from typing import Any, Union, Mapping
 from typing_extensions import Self, override
 
@@ -20,12 +19,18 @@ from ._types import (
     ProxiesTypes,
     RequestOptions,
 )
-from ._utils import is_given, get_async_library
+from ._utils import (
+    is_given,
+    get_async_library,
+)
 from ._version import __version__
-from ._streaming import Stream as Stream
-from ._streaming import AsyncStream as AsyncStream
+from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import DocugamiError, APIStatusError
-from ._base_client import DEFAULT_MAX_RETRIES, SyncAPIClient, AsyncAPIClient
+from ._base_client import (
+    DEFAULT_MAX_RETRIES,
+    SyncAPIClient,
+    AsyncAPIClient,
+)
 
 __all__ = [
     "Timeout",
@@ -41,12 +46,13 @@ __all__ = [
 
 
 class Docugami(SyncAPIClient):
-    documents: resources.Documents
-    docsets: resources.Docsets
-    projects: resources.Projects
-    workspaces: resources.Workspaces
-    webhooks: resources.Webhooks
+    documents: resources.DocumentsResource
+    docsets: resources.DocsetsResource
+    projects: resources.ProjectsResource
+    workspaces: resources.WorkspacesResource
+    webhooks: resources.WebhooksResource
     with_raw_response: DocugamiWithRawResponse
+    with_streaming_response: DocugamiWithStreamedResponse
 
     # client options
     api_key: str
@@ -60,7 +66,9 @@ class Docugami(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
         http_client: httpx.Client | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -100,12 +108,13 @@ class Docugami(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.documents = resources.Documents(self)
-        self.docsets = resources.Docsets(self)
-        self.projects = resources.Projects(self)
-        self.workspaces = resources.Workspaces(self)
-        self.webhooks = resources.Webhooks(self)
+        self.documents = resources.DocumentsResource(self)
+        self.docsets = resources.DocsetsResource(self)
+        self.projects = resources.ProjectsResource(self)
+        self.workspaces = resources.WorkspacesResource(self)
+        self.webhooks = resources.WebhooksResource(self)
         self.with_raw_response = DocugamiWithRawResponse(self)
+        self.with_streaming_response = DocugamiWithStreamedResponse(self)
 
     @property
     @override
@@ -178,16 +187,6 @@ class Docugami(SyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def __del__(self) -> None:
-        if not hasattr(self, "_has_custom_http_client") or not hasattr(self, "close"):
-            # this can happen if the '__init__' method raised an error
-            return
-
-        if self._has_custom_http_client:
-            return
-
-        self.close()
-
     @override
     def _make_status_error(
         self,
@@ -223,12 +222,13 @@ class Docugami(SyncAPIClient):
 
 
 class AsyncDocugami(AsyncAPIClient):
-    documents: resources.AsyncDocuments
-    docsets: resources.AsyncDocsets
-    projects: resources.AsyncProjects
-    workspaces: resources.AsyncWorkspaces
-    webhooks: resources.AsyncWebhooks
+    documents: resources.AsyncDocumentsResource
+    docsets: resources.AsyncDocsetsResource
+    projects: resources.AsyncProjectsResource
+    workspaces: resources.AsyncWorkspacesResource
+    webhooks: resources.AsyncWebhooksResource
     with_raw_response: AsyncDocugamiWithRawResponse
+    with_streaming_response: AsyncDocugamiWithStreamedResponse
 
     # client options
     api_key: str
@@ -242,7 +242,9 @@ class AsyncDocugami(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
         http_client: httpx.AsyncClient | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -282,12 +284,13 @@ class AsyncDocugami(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.documents = resources.AsyncDocuments(self)
-        self.docsets = resources.AsyncDocsets(self)
-        self.projects = resources.AsyncProjects(self)
-        self.workspaces = resources.AsyncWorkspaces(self)
-        self.webhooks = resources.AsyncWebhooks(self)
+        self.documents = resources.AsyncDocumentsResource(self)
+        self.docsets = resources.AsyncDocsetsResource(self)
+        self.projects = resources.AsyncProjectsResource(self)
+        self.workspaces = resources.AsyncWorkspacesResource(self)
+        self.webhooks = resources.AsyncWebhooksResource(self)
         self.with_raw_response = AsyncDocugamiWithRawResponse(self)
+        self.with_streaming_response = AsyncDocugamiWithStreamedResponse(self)
 
     @property
     @override
@@ -360,19 +363,6 @@ class AsyncDocugami(AsyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def __del__(self) -> None:
-        if not hasattr(self, "_has_custom_http_client") or not hasattr(self, "close"):
-            # this can happen if the '__init__' method raised an error
-            return
-
-        if self._has_custom_http_client:
-            return
-
-        try:
-            asyncio.get_running_loop().create_task(self.close())
-        except Exception:
-            pass
-
     @override
     def _make_status_error(
         self,
@@ -409,20 +399,38 @@ class AsyncDocugami(AsyncAPIClient):
 
 class DocugamiWithRawResponse:
     def __init__(self, client: Docugami) -> None:
-        self.documents = resources.DocumentsWithRawResponse(client.documents)
-        self.docsets = resources.DocsetsWithRawResponse(client.docsets)
-        self.projects = resources.ProjectsWithRawResponse(client.projects)
-        self.workspaces = resources.WorkspacesWithRawResponse(client.workspaces)
-        self.webhooks = resources.WebhooksWithRawResponse(client.webhooks)
+        self.documents = resources.DocumentsResourceWithRawResponse(client.documents)
+        self.docsets = resources.DocsetsResourceWithRawResponse(client.docsets)
+        self.projects = resources.ProjectsResourceWithRawResponse(client.projects)
+        self.workspaces = resources.WorkspacesResourceWithRawResponse(client.workspaces)
+        self.webhooks = resources.WebhooksResourceWithRawResponse(client.webhooks)
 
 
 class AsyncDocugamiWithRawResponse:
     def __init__(self, client: AsyncDocugami) -> None:
-        self.documents = resources.AsyncDocumentsWithRawResponse(client.documents)
-        self.docsets = resources.AsyncDocsetsWithRawResponse(client.docsets)
-        self.projects = resources.AsyncProjectsWithRawResponse(client.projects)
-        self.workspaces = resources.AsyncWorkspacesWithRawResponse(client.workspaces)
-        self.webhooks = resources.AsyncWebhooksWithRawResponse(client.webhooks)
+        self.documents = resources.AsyncDocumentsResourceWithRawResponse(client.documents)
+        self.docsets = resources.AsyncDocsetsResourceWithRawResponse(client.docsets)
+        self.projects = resources.AsyncProjectsResourceWithRawResponse(client.projects)
+        self.workspaces = resources.AsyncWorkspacesResourceWithRawResponse(client.workspaces)
+        self.webhooks = resources.AsyncWebhooksResourceWithRawResponse(client.webhooks)
+
+
+class DocugamiWithStreamedResponse:
+    def __init__(self, client: Docugami) -> None:
+        self.documents = resources.DocumentsResourceWithStreamingResponse(client.documents)
+        self.docsets = resources.DocsetsResourceWithStreamingResponse(client.docsets)
+        self.projects = resources.ProjectsResourceWithStreamingResponse(client.projects)
+        self.workspaces = resources.WorkspacesResourceWithStreamingResponse(client.workspaces)
+        self.webhooks = resources.WebhooksResourceWithStreamingResponse(client.webhooks)
+
+
+class AsyncDocugamiWithStreamedResponse:
+    def __init__(self, client: AsyncDocugami) -> None:
+        self.documents = resources.AsyncDocumentsResourceWithStreamingResponse(client.documents)
+        self.docsets = resources.AsyncDocsetsResourceWithStreamingResponse(client.docsets)
+        self.projects = resources.AsyncProjectsResourceWithStreamingResponse(client.projects)
+        self.workspaces = resources.AsyncWorkspacesResourceWithStreamingResponse(client.workspaces)
+        self.webhooks = resources.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
 
 
 Client = Docugami
