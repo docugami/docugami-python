@@ -1,31 +1,51 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Mapping, cast
+from typing import Mapping, cast
 
 import httpx
 
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from ...._utils import extract_files, maybe_transform, deepcopy_minimal
+from ...._utils import (
+    extract_files,
+    maybe_transform,
+    deepcopy_minimal,
+    async_maybe_transform,
+)
+from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import to_raw_response_wrapper, async_to_raw_response_wrapper
-from ...._base_client import HttpxBinaryResponseContent, make_request_options
-from ....types.projects import Artifact
+from ...._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
+)
+from ...._base_client import (
+    make_request_options,
+)
+from ....types.projects.artifact import Artifact
 from ....types.projects.artifacts import content_upload_params
 
-if TYPE_CHECKING:
-    from ...._client import Docugami, AsyncDocugami
-
-__all__ = ["Contents", "AsyncContents"]
+__all__ = ["ContentsResource", "AsyncContentsResource"]
 
 
-class Contents(SyncAPIResource):
-    with_raw_response: ContentsWithRawResponse
+class ContentsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ContentsResourceWithRawResponse:
+        return ContentsResourceWithRawResponse(self)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = ContentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> ContentsResourceWithStreamingResponse:
+        return ContentsResourceWithStreamingResponse(self)
 
     def download(
         self,
@@ -39,7 +59,7 @@ class Contents(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> HttpxBinaryResponseContent:
+    ) -> BinaryAPIResponse:
         """
         Downloads an artifact
 
@@ -52,12 +72,19 @@ class Contents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        if not version:
+            raise ValueError(f"Expected a non-empty value for `version` but received {version!r}")
+        if not artifact_id:
+            raise ValueError(f"Expected a non-empty value for `artifact_id` but received {artifact_id!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
             f"/projects/{project_id}/artifacts/{version}/{artifact_id}/content",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=HttpxBinaryResponseContent,
+            cast_to=BinaryAPIResponse,
         )
 
     def upload(
@@ -88,6 +115,10 @@ class Contents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        if not version:
+            raise ValueError(f"Expected a non-empty value for `version` but received {version!r}")
         body = deepcopy_minimal(
             {
                 "file": file,
@@ -100,7 +131,6 @@ class Contents(SyncAPIResource):
             # sent to the server will contain a `boundary` parameter, e.g.
             # multipart/form-data; boundary=---abc--
             extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-
         return self._post(
             f"/projects/{project_id}/artifacts/{version}/content",
             body=maybe_transform(body, content_upload_params.ContentUploadParams),
@@ -112,12 +142,14 @@ class Contents(SyncAPIResource):
         )
 
 
-class AsyncContents(AsyncAPIResource):
-    with_raw_response: AsyncContentsWithRawResponse
+class AsyncContentsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncContentsResourceWithRawResponse:
+        return AsyncContentsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncContentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncContentsResourceWithStreamingResponse:
+        return AsyncContentsResourceWithStreamingResponse(self)
 
     async def download(
         self,
@@ -131,7 +163,7 @@ class AsyncContents(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> HttpxBinaryResponseContent:
+    ) -> AsyncBinaryAPIResponse:
         """
         Downloads an artifact
 
@@ -144,12 +176,19 @@ class AsyncContents(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        if not version:
+            raise ValueError(f"Expected a non-empty value for `version` but received {version!r}")
+        if not artifact_id:
+            raise ValueError(f"Expected a non-empty value for `artifact_id` but received {artifact_id!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
             f"/projects/{project_id}/artifacts/{version}/{artifact_id}/content",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=HttpxBinaryResponseContent,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
     async def upload(
@@ -180,6 +219,10 @@ class AsyncContents(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        if not version:
+            raise ValueError(f"Expected a non-empty value for `version` but received {version!r}")
         body = deepcopy_minimal(
             {
                 "file": file,
@@ -192,10 +235,9 @@ class AsyncContents(AsyncAPIResource):
             # sent to the server will contain a `boundary` parameter, e.g.
             # multipart/form-data; boundary=---abc--
             extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-
         return await self._post(
             f"/projects/{project_id}/artifacts/{version}/content",
-            body=maybe_transform(body, content_upload_params.ContentUploadParams),
+            body=await async_maybe_transform(body, content_upload_params.ContentUploadParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -204,21 +246,53 @@ class AsyncContents(AsyncAPIResource):
         )
 
 
-class ContentsWithRawResponse:
-    def __init__(self, contents: Contents) -> None:
-        self.download = to_raw_response_wrapper(
+class ContentsResourceWithRawResponse:
+    def __init__(self, contents: ContentsResource) -> None:
+        self._contents = contents
+
+        self.download = to_custom_raw_response_wrapper(
             contents.download,
+            BinaryAPIResponse,
         )
         self.upload = to_raw_response_wrapper(
             contents.upload,
         )
 
 
-class AsyncContentsWithRawResponse:
-    def __init__(self, contents: AsyncContents) -> None:
-        self.download = async_to_raw_response_wrapper(
+class AsyncContentsResourceWithRawResponse:
+    def __init__(self, contents: AsyncContentsResource) -> None:
+        self._contents = contents
+
+        self.download = async_to_custom_raw_response_wrapper(
             contents.download,
+            AsyncBinaryAPIResponse,
         )
         self.upload = async_to_raw_response_wrapper(
+            contents.upload,
+        )
+
+
+class ContentsResourceWithStreamingResponse:
+    def __init__(self, contents: ContentsResource) -> None:
+        self._contents = contents
+
+        self.download = to_custom_streamed_response_wrapper(
+            contents.download,
+            StreamedBinaryAPIResponse,
+        )
+        self.upload = to_streamed_response_wrapper(
+            contents.upload,
+        )
+
+
+class AsyncContentsResourceWithStreamingResponse:
+    def __init__(self, contents: AsyncContentsResource) -> None:
+        self._contents = contents
+
+        self.download = async_to_custom_streamed_response_wrapper(
+            contents.download,
+            AsyncStreamedBinaryAPIResponse,
+        )
+        self.upload = async_to_streamed_response_wrapper(
             contents.upload,
         )

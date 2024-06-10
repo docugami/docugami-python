@@ -1,33 +1,41 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import Docset, Document
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import maybe_transform
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ...pagination import SyncDocumentsPage, AsyncDocumentsPage
-from ..._base_client import AsyncPaginator, make_request_options
+from ..._base_client import (
+    AsyncPaginator,
+    make_request_options,
+)
+from ...types.docset import Docset
 from ...types.docsets import document_list_params
+from ...types.document import Document
 
-if TYPE_CHECKING:
-    from ..._client import Docugami, AsyncDocugami
-
-__all__ = ["Documents", "AsyncDocuments"]
+__all__ = ["DocumentsResource", "AsyncDocumentsResource"]
 
 
-class Documents(SyncAPIResource):
-    with_raw_response: DocumentsWithRawResponse
+class DocumentsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> DocumentsResourceWithRawResponse:
+        return DocumentsResourceWithRawResponse(self)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = DocumentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> DocumentsResourceWithStreamingResponse:
+        return DocumentsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -53,6 +61,10 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         return self._get(
             f"/docsets/{docset_id}/documents/{document_id}",
             options=make_request_options(
@@ -109,6 +121,8 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get_api_list(
             f"/docsets/{id}/documents",
             page=SyncDocumentsPage[Document],
@@ -158,6 +172,10 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/docsets/{docset_id}/documents/{document_id}",
@@ -191,6 +209,10 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         return self._put(
             f"/docsets/{docset_id}/documents/{document_id}",
             options=make_request_options(
@@ -223,6 +245,10 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         extra_headers = {"Accept": "application/xml", **(extra_headers or {})}
         return self._get(
             f"/docsets/{docset_id}/documents/{document_id}/dgml",
@@ -233,12 +259,14 @@ class Documents(SyncAPIResource):
         )
 
 
-class AsyncDocuments(AsyncAPIResource):
-    with_raw_response: AsyncDocumentsWithRawResponse
+class AsyncDocumentsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncDocumentsResourceWithRawResponse:
+        return AsyncDocumentsResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncDocumentsWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncDocumentsResourceWithStreamingResponse:
+        return AsyncDocumentsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -264,6 +292,10 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         return await self._get(
             f"/docsets/{docset_id}/documents/{document_id}",
             options=make_request_options(
@@ -320,6 +352,8 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get_api_list(
             f"/docsets/{id}/documents",
             page=AsyncDocumentsPage[Document],
@@ -369,6 +403,10 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/docsets/{docset_id}/documents/{document_id}",
@@ -402,6 +440,10 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         return await self._put(
             f"/docsets/{docset_id}/documents/{document_id}",
             options=make_request_options(
@@ -434,6 +476,10 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not docset_id:
+            raise ValueError(f"Expected a non-empty value for `docset_id` but received {docset_id!r}")
+        if not document_id:
+            raise ValueError(f"Expected a non-empty value for `document_id` but received {document_id!r}")
         extra_headers = {"Accept": "application/xml", **(extra_headers or {})}
         return await self._get(
             f"/docsets/{docset_id}/documents/{document_id}/dgml",
@@ -444,8 +490,10 @@ class AsyncDocuments(AsyncAPIResource):
         )
 
 
-class DocumentsWithRawResponse:
-    def __init__(self, documents: Documents) -> None:
+class DocumentsResourceWithRawResponse:
+    def __init__(self, documents: DocumentsResource) -> None:
+        self._documents = documents
+
         self.retrieve = to_raw_response_wrapper(
             documents.retrieve,
         )
@@ -463,8 +511,10 @@ class DocumentsWithRawResponse:
         )
 
 
-class AsyncDocumentsWithRawResponse:
-    def __init__(self, documents: AsyncDocuments) -> None:
+class AsyncDocumentsResourceWithRawResponse:
+    def __init__(self, documents: AsyncDocumentsResource) -> None:
+        self._documents = documents
+
         self.retrieve = async_to_raw_response_wrapper(
             documents.retrieve,
         )
@@ -478,5 +528,47 @@ class AsyncDocumentsWithRawResponse:
             documents.add,
         )
         self.dgml = async_to_raw_response_wrapper(
+            documents.dgml,
+        )
+
+
+class DocumentsResourceWithStreamingResponse:
+    def __init__(self, documents: DocumentsResource) -> None:
+        self._documents = documents
+
+        self.retrieve = to_streamed_response_wrapper(
+            documents.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            documents.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            documents.delete,
+        )
+        self.add = to_streamed_response_wrapper(
+            documents.add,
+        )
+        self.dgml = to_streamed_response_wrapper(
+            documents.dgml,
+        )
+
+
+class AsyncDocumentsResourceWithStreamingResponse:
+    def __init__(self, documents: AsyncDocumentsResource) -> None:
+        self._documents = documents
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            documents.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            documents.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            documents.delete,
+        )
+        self.add = async_to_streamed_response_wrapper(
+            documents.add,
+        )
+        self.dgml = async_to_streamed_response_wrapper(
             documents.dgml,
         )

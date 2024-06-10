@@ -1,40 +1,64 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import Document, document_list_params
+from .pages import (
+    PagesResource,
+    AsyncPagesResource,
+    PagesResourceWithRawResponse,
+    AsyncPagesResourceWithRawResponse,
+    PagesResourceWithStreamingResponse,
+    AsyncPagesResourceWithStreamingResponse,
+)
+from ...types import document_list_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import maybe_transform
 from .contents import (
-    Contents,
-    AsyncContents,
-    ContentsWithRawResponse,
-    AsyncContentsWithRawResponse,
+    ContentsResource,
+    AsyncContentsResource,
+    ContentsResourceWithRawResponse,
+    AsyncContentsResourceWithRawResponse,
+    ContentsResourceWithStreamingResponse,
+    AsyncContentsResourceWithStreamingResponse,
 )
+from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ...pagination import SyncDocumentsPage, AsyncDocumentsPage
-from ..._base_client import AsyncPaginator, make_request_options
+from ..._base_client import (
+    AsyncPaginator,
+    make_request_options,
+)
+from ...types.document import Document
 
-if TYPE_CHECKING:
-    from ..._client import Docugami, AsyncDocugami
-
-__all__ = ["Documents", "AsyncDocuments"]
+__all__ = ["DocumentsResource", "AsyncDocumentsResource"]
 
 
-class Documents(SyncAPIResource):
-    contents: Contents
-    with_raw_response: DocumentsWithRawResponse
+class DocumentsResource(SyncAPIResource):
+    @cached_property
+    def contents(self) -> ContentsResource:
+        return ContentsResource(self._client)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.contents = Contents(client)
-        self.with_raw_response = DocumentsWithRawResponse(self)
+    @cached_property
+    def pages(self) -> PagesResource:
+        return PagesResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> DocumentsResourceWithRawResponse:
+        return DocumentsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> DocumentsResourceWithStreamingResponse:
+        return DocumentsResourceWithStreamingResponse(self)
 
     def retrieve(
         self,
@@ -59,6 +83,8 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/documents/{id}",
             options=make_request_options(
@@ -172,6 +198,8 @@ class Documents(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/documents/{id}",
@@ -182,14 +210,22 @@ class Documents(SyncAPIResource):
         )
 
 
-class AsyncDocuments(AsyncAPIResource):
-    contents: AsyncContents
-    with_raw_response: AsyncDocumentsWithRawResponse
+class AsyncDocumentsResource(AsyncAPIResource):
+    @cached_property
+    def contents(self) -> AsyncContentsResource:
+        return AsyncContentsResource(self._client)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.contents = AsyncContents(client)
-        self.with_raw_response = AsyncDocumentsWithRawResponse(self)
+    @cached_property
+    def pages(self) -> AsyncPagesResource:
+        return AsyncPagesResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncDocumentsResourceWithRawResponse:
+        return AsyncDocumentsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncDocumentsResourceWithStreamingResponse:
+        return AsyncDocumentsResourceWithStreamingResponse(self)
 
     async def retrieve(
         self,
@@ -214,6 +250,8 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/documents/{id}",
             options=make_request_options(
@@ -327,6 +365,8 @@ class AsyncDocuments(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/documents/{id}",
@@ -337,9 +377,9 @@ class AsyncDocuments(AsyncAPIResource):
         )
 
 
-class DocumentsWithRawResponse:
-    def __init__(self, documents: Documents) -> None:
-        self.contents = ContentsWithRawResponse(documents.contents)
+class DocumentsResourceWithRawResponse:
+    def __init__(self, documents: DocumentsResource) -> None:
+        self._documents = documents
 
         self.retrieve = to_raw_response_wrapper(
             documents.retrieve,
@@ -351,10 +391,18 @@ class DocumentsWithRawResponse:
             documents.delete,
         )
 
+    @cached_property
+    def contents(self) -> ContentsResourceWithRawResponse:
+        return ContentsResourceWithRawResponse(self._documents.contents)
 
-class AsyncDocumentsWithRawResponse:
-    def __init__(self, documents: AsyncDocuments) -> None:
-        self.contents = AsyncContentsWithRawResponse(documents.contents)
+    @cached_property
+    def pages(self) -> PagesResourceWithRawResponse:
+        return PagesResourceWithRawResponse(self._documents.pages)
+
+
+class AsyncDocumentsResourceWithRawResponse:
+    def __init__(self, documents: AsyncDocumentsResource) -> None:
+        self._documents = documents
 
         self.retrieve = async_to_raw_response_wrapper(
             documents.retrieve,
@@ -365,3 +413,57 @@ class AsyncDocumentsWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             documents.delete,
         )
+
+    @cached_property
+    def contents(self) -> AsyncContentsResourceWithRawResponse:
+        return AsyncContentsResourceWithRawResponse(self._documents.contents)
+
+    @cached_property
+    def pages(self) -> AsyncPagesResourceWithRawResponse:
+        return AsyncPagesResourceWithRawResponse(self._documents.pages)
+
+
+class DocumentsResourceWithStreamingResponse:
+    def __init__(self, documents: DocumentsResource) -> None:
+        self._documents = documents
+
+        self.retrieve = to_streamed_response_wrapper(
+            documents.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            documents.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            documents.delete,
+        )
+
+    @cached_property
+    def contents(self) -> ContentsResourceWithStreamingResponse:
+        return ContentsResourceWithStreamingResponse(self._documents.contents)
+
+    @cached_property
+    def pages(self) -> PagesResourceWithStreamingResponse:
+        return PagesResourceWithStreamingResponse(self._documents.pages)
+
+
+class AsyncDocumentsResourceWithStreamingResponse:
+    def __init__(self, documents: AsyncDocumentsResource) -> None:
+        self._documents = documents
+
+        self.retrieve = async_to_streamed_response_wrapper(
+            documents.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            documents.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            documents.delete,
+        )
+
+    @cached_property
+    def contents(self) -> AsyncContentsResourceWithStreamingResponse:
+        return AsyncContentsResourceWithStreamingResponse(self._documents.contents)
+
+    @cached_property
+    def pages(self) -> AsyncPagesResourceWithStreamingResponse:
+        return AsyncPagesResourceWithStreamingResponse(self._documents.pages)
