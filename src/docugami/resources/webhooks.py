@@ -1,32 +1,44 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import List
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import Webhook, webhook_list_params, webhook_create_params
+from ..types import webhook_list_params, webhook_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from .._utils import maybe_transform
+from .._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ..pagination import SyncWebhooksPage, AsyncWebhooksPage
-from .._base_client import AsyncPaginator, make_request_options
+from .._base_client import (
+    AsyncPaginator,
+    make_request_options,
+)
+from ..types.webhook import Webhook
 
-if TYPE_CHECKING:
-    from .._client import Docugami, AsyncDocugami
-
-__all__ = ["Webhooks", "AsyncWebhooks"]
+__all__ = ["WebhooksResource", "AsyncWebhooksResource"]
 
 
-class Webhooks(SyncAPIResource):
-    with_raw_response: WebhooksWithRawResponse
+class WebhooksResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> WebhooksResourceWithRawResponse:
+        return WebhooksResourceWithRawResponse(self)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = WebhooksWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> WebhooksResourceWithStreamingResponse:
+        return WebhooksResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -109,6 +121,8 @@ class Webhooks(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/webhooks/{id}",
             options=make_request_options(
@@ -197,6 +211,8 @@ class Webhooks(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/webhooks/{id}",
@@ -207,12 +223,14 @@ class Webhooks(SyncAPIResource):
         )
 
 
-class AsyncWebhooks(AsyncAPIResource):
-    with_raw_response: AsyncWebhooksWithRawResponse
+class AsyncWebhooksResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncWebhooksResourceWithRawResponse:
+        return AsyncWebhooksResourceWithRawResponse(self)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncWebhooksWithRawResponse(self)
+    @cached_property
+    def with_streaming_response(self) -> AsyncWebhooksResourceWithStreamingResponse:
+        return AsyncWebhooksResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -256,7 +274,7 @@ class AsyncWebhooks(AsyncAPIResource):
         """
         return await self._post(
             "/webhooks",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "target": target,
                     "url": url,
@@ -295,6 +313,8 @@ class AsyncWebhooks(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/webhooks/{id}",
             options=make_request_options(
@@ -383,6 +403,8 @@ class AsyncWebhooks(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/webhooks/{id}",
@@ -393,8 +415,10 @@ class AsyncWebhooks(AsyncAPIResource):
         )
 
 
-class WebhooksWithRawResponse:
-    def __init__(self, webhooks: Webhooks) -> None:
+class WebhooksResourceWithRawResponse:
+    def __init__(self, webhooks: WebhooksResource) -> None:
+        self._webhooks = webhooks
+
         self.create = to_raw_response_wrapper(
             webhooks.create,
         )
@@ -409,8 +433,10 @@ class WebhooksWithRawResponse:
         )
 
 
-class AsyncWebhooksWithRawResponse:
-    def __init__(self, webhooks: AsyncWebhooks) -> None:
+class AsyncWebhooksResourceWithRawResponse:
+    def __init__(self, webhooks: AsyncWebhooksResource) -> None:
+        self._webhooks = webhooks
+
         self.create = async_to_raw_response_wrapper(
             webhooks.create,
         )
@@ -421,5 +447,41 @@ class AsyncWebhooksWithRawResponse:
             webhooks.list,
         )
         self.delete = async_to_raw_response_wrapper(
+            webhooks.delete,
+        )
+
+
+class WebhooksResourceWithStreamingResponse:
+    def __init__(self, webhooks: WebhooksResource) -> None:
+        self._webhooks = webhooks
+
+        self.create = to_streamed_response_wrapper(
+            webhooks.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            webhooks.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            webhooks.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            webhooks.delete,
+        )
+
+
+class AsyncWebhooksResourceWithStreamingResponse:
+    def __init__(self, webhooks: AsyncWebhooksResource) -> None:
+        self._webhooks = webhooks
+
+        self.create = async_to_streamed_response_wrapper(
+            webhooks.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            webhooks.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            webhooks.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
             webhooks.delete,
         )

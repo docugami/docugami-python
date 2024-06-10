@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -17,9 +17,8 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from docugami import Docugami, AsyncDocugami, APIResponseValidationError
-from docugami._client import Docugami, AsyncDocugami
 from docugami._models import BaseModel, FinalRequestOptions
-from docugami._exceptions import APIStatusError, APIResponseValidationError
+from docugami._exceptions import APIResponseValidationError
 from docugami._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
@@ -190,8 +189,8 @@ class TestDocugami:
         ITERATIONS = 10
         for _ in range(ITERATIONS):
             build_request(options)
-            gc.collect()
 
+        gc.collect()
         snapshot_after = tracemalloc.take_snapshot()
 
         tracemalloc.stop()
@@ -212,6 +211,7 @@ class TestDocugami:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
+                        "docugami/_legacy_response.py",
                         "docugami/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
                         "docugami/_compat.py",
@@ -283,6 +283,16 @@ class TestDocugami:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
+
+    async def test_invalid_http_client(self) -> None:
+        with pytest.raises(TypeError, match="Invalid `http_client` arg"):
+            async with httpx.AsyncClient() as http_client:
+                Docugami(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
         client = Docugami(
@@ -419,6 +429,35 @@ class TestDocugami:
         )
         params = dict(request.url.params)
         assert params == {"foo": "2"}
+
+    def test_multipart_repeating_array(self, client: Docugami) -> None:
+        request = client._build_request(
+            FinalRequestOptions.construct(
+                method="get",
+                url="/foo",
+                headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
+                json_data={"array": ["foo", "bar"]},
+                files=[("foo.txt", b"hello world")],
+            )
+        )
+
+        assert request.read().split(b"\r\n") == [
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"foo",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"bar",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="foo.txt"; filename="upload"',
+            b"Content-Type: application/octet-stream",
+            b"",
+            b"hello world",
+            b"--6b7ba517decee4a450543ea6ae821c82--",
+            b"",
+        ]
 
     @pytest.mark.respx(base_url=base_url)
     def test_basic_union_response(self, respx_mock: MockRouter) -> None:
@@ -559,14 +598,6 @@ class TestDocugami:
         )
         assert request.url == "https://myapi.com/foo"
 
-    def test_client_del(self) -> None:
-        client = Docugami(base_url=base_url, api_key=api_key, _strict_response_validation=True)
-        assert not client.is_closed()
-
-        client.__del__()
-
-        assert client.is_closed()
-
     def test_copied_client_does_not_close_http(self) -> None:
         client = Docugami(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
@@ -574,9 +605,8 @@ class TestDocugami:
         copied = client.copy()
         assert copied is not client
 
-        copied.__del__()
+        del copied
 
-        assert not copied.is_closed()
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
@@ -598,6 +628,10 @@ class TestDocugami:
             self.client.get("/foo", cast_to=Model)
 
         assert isinstance(exc.value.__cause__, ValidationError)
+
+    def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            Docugami(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -644,31 +678,6 @@ class TestDocugami:
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
-
-    @pytest.mark.respx(base_url=base_url)
-    def test_status_error_within_httpx(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-
-        def on_response(response: httpx.Response) -> None:
-            raise httpx.HTTPStatusError(
-                "Simulating an error inside httpx",
-                response=response,
-                request=response.request,
-            )
-
-        client = Docugami(
-            base_url=base_url,
-            api_key=api_key,
-            _strict_response_validation=True,
-            http_client=httpx.Client(
-                event_hooks={
-                    "response": [on_response],
-                }
-            ),
-            max_retries=0,
-        )
-        with pytest.raises(APIStatusError):
-            client.post("/foo", cast_to=httpx.Response)
 
 
 class TestAsyncDocugami:
@@ -824,8 +833,8 @@ class TestAsyncDocugami:
         ITERATIONS = 10
         for _ in range(ITERATIONS):
             build_request(options)
-            gc.collect()
 
+        gc.collect()
         snapshot_after = tracemalloc.take_snapshot()
 
         tracemalloc.stop()
@@ -846,6 +855,7 @@ class TestAsyncDocugami:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
+                        "docugami/_legacy_response.py",
                         "docugami/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
                         "docugami/_compat.py",
@@ -917,6 +927,16 @@ class TestAsyncDocugami:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
+
+    def test_invalid_http_client(self) -> None:
+        with pytest.raises(TypeError, match="Invalid `http_client` arg"):
+            with httpx.Client() as http_client:
+                AsyncDocugami(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
         client = AsyncDocugami(
@@ -1053,6 +1073,35 @@ class TestAsyncDocugami:
         )
         params = dict(request.url.params)
         assert params == {"foo": "2"}
+
+    def test_multipart_repeating_array(self, async_client: AsyncDocugami) -> None:
+        request = async_client._build_request(
+            FinalRequestOptions.construct(
+                method="get",
+                url="/foo",
+                headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
+                json_data={"array": ["foo", "bar"]},
+                files=[("foo.txt", b"hello world")],
+            )
+        )
+
+        assert request.read().split(b"\r\n") == [
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"foo",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="array[]"',
+            b"",
+            b"bar",
+            b"--6b7ba517decee4a450543ea6ae821c82",
+            b'Content-Disposition: form-data; name="foo.txt"; filename="upload"',
+            b"Content-Type: application/octet-stream",
+            b"",
+            b"hello world",
+            b"--6b7ba517decee4a450543ea6ae821c82--",
+            b"",
+        ]
 
     @pytest.mark.respx(base_url=base_url)
     async def test_basic_union_response(self, respx_mock: MockRouter) -> None:
@@ -1201,15 +1250,6 @@ class TestAsyncDocugami:
         )
         assert request.url == "https://myapi.com/foo"
 
-    async def test_client_del(self) -> None:
-        client = AsyncDocugami(base_url=base_url, api_key=api_key, _strict_response_validation=True)
-        assert not client.is_closed()
-
-        client.__del__()
-
-        await asyncio.sleep(0.2)
-        assert client.is_closed()
-
     async def test_copied_client_does_not_close_http(self) -> None:
         client = AsyncDocugami(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
@@ -1217,10 +1257,9 @@ class TestAsyncDocugami:
         copied = client.copy()
         assert copied is not client
 
-        copied.__del__()
+        del copied
 
         await asyncio.sleep(0.2)
-        assert not copied.is_closed()
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
@@ -1243,6 +1282,12 @@ class TestAsyncDocugami:
             await self.client.get("/foo", cast_to=Model)
 
         assert isinstance(exc.value.__cause__, ValidationError)
+
+    async def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            AsyncDocugami(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+            )
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -1291,29 +1336,3 @@ class TestAsyncDocugami:
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
-
-    @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
-    async def test_status_error_within_httpx(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-
-        def on_response(response: httpx.Response) -> None:
-            raise httpx.HTTPStatusError(
-                "Simulating an error inside httpx",
-                response=response,
-                request=response.request,
-            )
-
-        client = AsyncDocugami(
-            base_url=base_url,
-            api_key=api_key,
-            _strict_response_validation=True,
-            http_client=httpx.AsyncClient(
-                event_hooks={
-                    "response": [on_response],
-                }
-            ),
-            max_retries=0,
-        )
-        with pytest.raises(APIStatusError):
-            await client.post("/foo", cast_to=httpx.Response)
