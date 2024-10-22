@@ -1,25 +1,47 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .pages import (
+    PagesResource,
+    AsyncPagesResource,
+    PagesResourceWithRawResponse,
+    AsyncPagesResourceWithRawResponse,
+    PagesResourceWithStreamingResponse,
+    AsyncPagesResourceWithStreamingResponse,
+)
 from .contents import (
-    Contents,
-    AsyncContents,
-    ContentsWithRawResponse,
-    AsyncContentsWithRawResponse,
+    ContentsResource,
+    AsyncContentsResource,
+    ContentsResourceWithRawResponse,
+    AsyncContentsResourceWithRawResponse,
+    ContentsResourceWithStreamingResponse,
+    AsyncContentsResourceWithStreamingResponse,
 )
 from .documents import (
-    Documents,
-    AsyncDocuments,
-    DocumentsWithRawResponse,
-    AsyncDocumentsWithRawResponse,
+    DocumentsResource,
+    AsyncDocumentsResource,
+    DocumentsResourceWithRawResponse,
+    AsyncDocumentsResourceWithRawResponse,
+    DocumentsResourceWithStreamingResponse,
+    AsyncDocumentsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Contents",
-    "AsyncContents",
-    "ContentsWithRawResponse",
-    "AsyncContentsWithRawResponse",
-    "Documents",
-    "AsyncDocuments",
-    "DocumentsWithRawResponse",
-    "AsyncDocumentsWithRawResponse",
+    "ContentsResource",
+    "AsyncContentsResource",
+    "ContentsResourceWithRawResponse",
+    "AsyncContentsResourceWithRawResponse",
+    "ContentsResourceWithStreamingResponse",
+    "AsyncContentsResourceWithStreamingResponse",
+    "PagesResource",
+    "AsyncPagesResource",
+    "PagesResourceWithRawResponse",
+    "AsyncPagesResourceWithRawResponse",
+    "PagesResourceWithStreamingResponse",
+    "AsyncPagesResourceWithStreamingResponse",
+    "DocumentsResource",
+    "AsyncDocumentsResource",
+    "DocumentsResourceWithRawResponse",
+    "AsyncDocumentsResourceWithRawResponse",
+    "DocumentsResourceWithStreamingResponse",
+    "AsyncDocumentsResourceWithStreamingResponse",
 ]

@@ -16,8 +16,22 @@ Methods:
 
 Methods:
 
-- <code title="get /documents/{id}/content">client.documents.contents.<a href="./src/docugami/resources/documents/contents.py">download</a>(id) -> HttpxBinaryResponseContent</code>
+- <code title="get /documents/{id}/content">client.documents.contents.<a href="./src/docugami/resources/documents/contents.py">download</a>(id) -> BinaryAPIResponse</code>
 - <code title="post /documents/content">client.documents.contents.<a href="./src/docugami/resources/documents/contents.py">upload</a>(\*\*<a href="src/docugami/types/documents/content_upload_params.py">params</a>) -> <a href="./src/docugami/types/document.py">Document</a></code>
+
+## Pages
+
+Types:
+
+```python
+from docugami.types.documents import PageRetrieveResponse, PageListResponse
+```
+
+Methods:
+
+- <code title="get /documents/{id}/pages/{pageNumber}">client.documents.pages.<a href="./src/docugami/resources/documents/pages.py">retrieve</a>(page_number, \*, id) -> <a href="./src/docugami/types/documents/page_retrieve_response.py">PageRetrieveResponse</a></code>
+- <code title="get /documents/{id}/pages">client.documents.pages.<a href="./src/docugami/resources/documents/pages.py">list</a>(id) -> <a href="./src/docugami/types/documents/page_list_response.py">SyncPagesPage[PageListResponse]</a></code>
+- <code title="get /documents/{id}/pages/{pageNumber}/content">client.documents.pages.<a href="./src/docugami/resources/documents/pages.py">download</a>(page_number, \*, id) -> BinaryAPIResponse</code>
 
 # Docsets
 
@@ -82,7 +96,7 @@ Methods:
 
 Methods:
 
-- <code title="get /projects/{projectId}/artifacts/{version}/{artifactId}/content">client.projects.artifacts.contents.<a href="./src/docugami/resources/projects/artifacts/contents.py">download</a>(artifact_id, \*, project_id, version) -> HttpxBinaryResponseContent</code>
+- <code title="get /projects/{projectId}/artifacts/{version}/{artifactId}/content">client.projects.artifacts.contents.<a href="./src/docugami/resources/projects/artifacts/contents.py">download</a>(artifact_id, \*, project_id, version) -> BinaryAPIResponse</code>
 - <code title="post /projects/{projectId}/artifacts/{version}/content">client.projects.artifacts.contents.<a href="./src/docugami/resources/projects/artifacts/contents.py">upload</a>(version, \*, project_id, \*\*<a href="src/docugami/types/projects/artifacts/content_upload_params.py">params</a>) -> <a href="./src/docugami/types/projects/artifact.py">Artifact</a></code>
 
 # Workspaces

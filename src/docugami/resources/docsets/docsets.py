@@ -1,39 +1,63 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import List
 
 import httpx
 
-from ...types import Docset, docset_list_params, docset_create_params
+from ...types import docset_list_params, docset_create_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
-from ..._utils import maybe_transform
+from ..._utils import (
+    maybe_transform,
+    async_maybe_transform,
+)
+from ..._compat import cached_property
 from .documents import (
-    Documents,
-    AsyncDocuments,
-    DocumentsWithRawResponse,
-    AsyncDocumentsWithRawResponse,
+    DocumentsResource,
+    AsyncDocumentsResource,
+    DocumentsResourceWithRawResponse,
+    AsyncDocumentsResourceWithRawResponse,
+    DocumentsResourceWithStreamingResponse,
+    AsyncDocumentsResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ...pagination import SyncDocsetsPage, AsyncDocsetsPage
 from ..._base_client import AsyncPaginator, make_request_options
+from ...types.docset import Docset
 
-if TYPE_CHECKING:
-    from ..._client import Docugami, AsyncDocugami
-
-__all__ = ["Docsets", "AsyncDocsets"]
+__all__ = ["DocsetsResource", "AsyncDocsetsResource"]
 
 
-class Docsets(SyncAPIResource):
-    documents: Documents
-    with_raw_response: DocsetsWithRawResponse
+class DocsetsResource(SyncAPIResource):
+    @cached_property
+    def documents(self) -> DocumentsResource:
+        return DocumentsResource(self._client)
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.documents = Documents(client)
-        self.with_raw_response = DocsetsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> DocsetsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
+        return DocsetsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> DocsetsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
+        return DocsetsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -102,6 +126,8 @@ class Docsets(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             f"/docsets/{id}",
             options=make_request_options(
@@ -197,6 +223,8 @@ class Docsets(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/docsets/{id}",
@@ -207,14 +235,29 @@ class Docsets(SyncAPIResource):
         )
 
 
-class AsyncDocsets(AsyncAPIResource):
-    documents: AsyncDocuments
-    with_raw_response: AsyncDocsetsWithRawResponse
+class AsyncDocsetsResource(AsyncAPIResource):
+    @cached_property
+    def documents(self) -> AsyncDocumentsResource:
+        return AsyncDocumentsResource(self._client)
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.documents = AsyncDocuments(client)
-        self.with_raw_response = AsyncDocsetsWithRawResponse(self)
+    @cached_property
+    def with_raw_response(self) -> AsyncDocsetsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncDocsetsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncDocsetsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
+        return AsyncDocsetsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -247,7 +290,7 @@ class AsyncDocsets(AsyncAPIResource):
         """
         return await self._post(
             "/docsets",
-            body=maybe_transform(
+            body=await async_maybe_transform(
                 {
                     "name": name,
                     "documents": documents,
@@ -283,6 +326,8 @@ class AsyncDocsets(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             f"/docsets/{id}",
             options=make_request_options(
@@ -378,6 +423,8 @@ class AsyncDocsets(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/docsets/{id}",
@@ -388,9 +435,9 @@ class AsyncDocsets(AsyncAPIResource):
         )
 
 
-class DocsetsWithRawResponse:
-    def __init__(self, docsets: Docsets) -> None:
-        self.documents = DocumentsWithRawResponse(docsets.documents)
+class DocsetsResourceWithRawResponse:
+    def __init__(self, docsets: DocsetsResource) -> None:
+        self._docsets = docsets
 
         self.create = to_raw_response_wrapper(
             docsets.create,
@@ -405,10 +452,14 @@ class DocsetsWithRawResponse:
             docsets.delete,
         )
 
+    @cached_property
+    def documents(self) -> DocumentsResourceWithRawResponse:
+        return DocumentsResourceWithRawResponse(self._docsets.documents)
 
-class AsyncDocsetsWithRawResponse:
-    def __init__(self, docsets: AsyncDocsets) -> None:
-        self.documents = AsyncDocumentsWithRawResponse(docsets.documents)
+
+class AsyncDocsetsResourceWithRawResponse:
+    def __init__(self, docsets: AsyncDocsetsResource) -> None:
+        self._docsets = docsets
 
         self.create = async_to_raw_response_wrapper(
             docsets.create,
@@ -422,3 +473,51 @@ class AsyncDocsetsWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             docsets.delete,
         )
+
+    @cached_property
+    def documents(self) -> AsyncDocumentsResourceWithRawResponse:
+        return AsyncDocumentsResourceWithRawResponse(self._docsets.documents)
+
+
+class DocsetsResourceWithStreamingResponse:
+    def __init__(self, docsets: DocsetsResource) -> None:
+        self._docsets = docsets
+
+        self.create = to_streamed_response_wrapper(
+            docsets.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            docsets.retrieve,
+        )
+        self.list = to_streamed_response_wrapper(
+            docsets.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            docsets.delete,
+        )
+
+    @cached_property
+    def documents(self) -> DocumentsResourceWithStreamingResponse:
+        return DocumentsResourceWithStreamingResponse(self._docsets.documents)
+
+
+class AsyncDocsetsResourceWithStreamingResponse:
+    def __init__(self, docsets: AsyncDocsetsResource) -> None:
+        self._docsets = docsets
+
+        self.create = async_to_streamed_response_wrapper(
+            docsets.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            docsets.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            docsets.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            docsets.delete,
+        )
+
+    @cached_property
+    def documents(self) -> AsyncDocumentsResourceWithStreamingResponse:
+        return AsyncDocumentsResourceWithStreamingResponse(self._docsets.documents)

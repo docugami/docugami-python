@@ -1,29 +1,43 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import httpx
 
-from ..types import Workspace
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from .._base_client import make_request_options
+from ..types.workspace import Workspace
 
-if TYPE_CHECKING:
-    from .._client import Docugami, AsyncDocugami
-
-__all__ = ["Workspaces", "AsyncWorkspaces"]
+__all__ = ["WorkspacesResource", "AsyncWorkspacesResource"]
 
 
-class Workspaces(SyncAPIResource):
-    with_raw_response: WorkspacesWithRawResponse
+class WorkspacesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> WorkspacesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
 
-    def __init__(self, client: Docugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = WorkspacesWithRawResponse(self)
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
+        return WorkspacesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> WorkspacesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
+        return WorkspacesResourceWithStreamingResponse(self)
 
     def get(
         self,
@@ -45,12 +59,25 @@ class Workspaces(SyncAPIResource):
         )
 
 
-class AsyncWorkspaces(AsyncAPIResource):
-    with_raw_response: AsyncWorkspacesWithRawResponse
+class AsyncWorkspacesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncWorkspacesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
 
-    def __init__(self, client: AsyncDocugami) -> None:
-        super().__init__(client)
-        self.with_raw_response = AsyncWorkspacesWithRawResponse(self)
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncWorkspacesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncWorkspacesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
+        return AsyncWorkspacesResourceWithStreamingResponse(self)
 
     async def get(
         self,
@@ -72,15 +99,37 @@ class AsyncWorkspaces(AsyncAPIResource):
         )
 
 
-class WorkspacesWithRawResponse:
-    def __init__(self, workspaces: Workspaces) -> None:
+class WorkspacesResourceWithRawResponse:
+    def __init__(self, workspaces: WorkspacesResource) -> None:
+        self._workspaces = workspaces
+
         self.get = to_raw_response_wrapper(
             workspaces.get,
         )
 
 
-class AsyncWorkspacesWithRawResponse:
-    def __init__(self, workspaces: AsyncWorkspaces) -> None:
+class AsyncWorkspacesResourceWithRawResponse:
+    def __init__(self, workspaces: AsyncWorkspacesResource) -> None:
+        self._workspaces = workspaces
+
         self.get = async_to_raw_response_wrapper(
+            workspaces.get,
+        )
+
+
+class WorkspacesResourceWithStreamingResponse:
+    def __init__(self, workspaces: WorkspacesResource) -> None:
+        self._workspaces = workspaces
+
+        self.get = to_streamed_response_wrapper(
+            workspaces.get,
+        )
+
+
+class AsyncWorkspacesResourceWithStreamingResponse:
+    def __init__(self, workspaces: AsyncWorkspacesResource) -> None:
+        self._workspaces = workspaces
+
+        self.get = async_to_streamed_response_wrapper(
             workspaces.get,
         )
