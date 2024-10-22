@@ -17,10 +17,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ...pagination import SyncDocumentsPage, AsyncDocumentsPage
-from ..._base_client import (
-    AsyncPaginator,
-    make_request_options,
-)
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.docset import Docset
 from ...types.docsets import document_list_params
 from ...types.document import Document
@@ -31,10 +28,21 @@ __all__ = ["DocumentsResource", "AsyncDocumentsResource"]
 class DocumentsResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> DocumentsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return DocumentsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> DocumentsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return DocumentsResourceWithStreamingResponse(self)
 
     def retrieve(
@@ -262,10 +270,21 @@ class DocumentsResource(SyncAPIResource):
 class AsyncDocumentsResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncDocumentsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return AsyncDocumentsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncDocumentsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return AsyncDocumentsResourceWithStreamingResponse(self)
 
     async def retrieve(

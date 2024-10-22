@@ -21,8 +21,8 @@ class TestArtifacts:
     @parametrize
     def test_method_retrieve(self, client: Docugami) -> None:
         artifact = client.projects.artifacts.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
         assert_matches_type(Artifact, artifact, path=["response"])
@@ -30,8 +30,8 @@ class TestArtifacts:
     @parametrize
     def test_raw_response_retrieve(self, client: Docugami) -> None:
         response = client.projects.artifacts.with_raw_response.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
 
@@ -43,8 +43,8 @@ class TestArtifacts:
     @parametrize
     def test_streaming_response_retrieve(self, client: Docugami) -> None:
         with client.projects.artifacts.with_streaming_response.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         ) as response:
             assert not response.is_closed
@@ -59,53 +59,53 @@ class TestArtifacts:
     def test_path_params_retrieve(self, client: Docugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             client.projects.artifacts.with_raw_response.retrieve(
-                "string",
+                artifact_id="artifactId",
                 project_id="",
                 version="1",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             client.projects.artifacts.with_raw_response.retrieve(
-                "string",
-                project_id="string",
+                artifact_id="artifactId",
+                project_id="projectId",
                 version="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `artifact_id` but received ''"):
             client.projects.artifacts.with_raw_response.retrieve(
-                "",
-                project_id="string",
+                artifact_id="",
+                project_id="projectId",
                 version="1",
             )
 
     @parametrize
     def test_method_list(self, client: Docugami) -> None:
         artifact = client.projects.artifacts.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         )
         assert_matches_type(SyncArtifactsPage[Artifact], artifact, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Docugami) -> None:
         artifact = client.projects.artifacts.list(
-            "1",
-            project_id="string",
-            cursor="string",
-            document={"id": "string"},
+            version="1",
+            project_id="projectId",
+            cursor="cursor",
+            document={"id": "id"},
             is_read_only=True,
             limit=1,
             max_size=0,
             min_size=0,
-            name="string",
+            name="name",
         )
         assert_matches_type(SyncArtifactsPage[Artifact], artifact, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Docugami) -> None:
         response = client.projects.artifacts.with_raw_response.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         )
 
         assert response.is_closed is True
@@ -116,8 +116,8 @@ class TestArtifacts:
     @parametrize
     def test_streaming_response_list(self, client: Docugami) -> None:
         with client.projects.artifacts.with_streaming_response.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -131,21 +131,21 @@ class TestArtifacts:
     def test_path_params_list(self, client: Docugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             client.projects.artifacts.with_raw_response.list(
-                "1",
+                version="1",
                 project_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             client.projects.artifacts.with_raw_response.list(
-                "",
-                project_id="string",
+                version="",
+                project_id="projectId",
             )
 
     @parametrize
     def test_method_delete(self, client: Docugami) -> None:
         artifact = client.projects.artifacts.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
         assert artifact is None
@@ -153,8 +153,8 @@ class TestArtifacts:
     @parametrize
     def test_raw_response_delete(self, client: Docugami) -> None:
         response = client.projects.artifacts.with_raw_response.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
 
@@ -166,8 +166,8 @@ class TestArtifacts:
     @parametrize
     def test_streaming_response_delete(self, client: Docugami) -> None:
         with client.projects.artifacts.with_streaming_response.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         ) as response:
             assert not response.is_closed
@@ -182,22 +182,22 @@ class TestArtifacts:
     def test_path_params_delete(self, client: Docugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             client.projects.artifacts.with_raw_response.delete(
-                "string",
+                artifact_id="artifactId",
                 project_id="",
                 version="1",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             client.projects.artifacts.with_raw_response.delete(
-                "string",
-                project_id="string",
+                artifact_id="artifactId",
+                project_id="projectId",
                 version="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `artifact_id` but received ''"):
             client.projects.artifacts.with_raw_response.delete(
-                "",
-                project_id="string",
+                artifact_id="",
+                project_id="projectId",
                 version="1",
             )
 
@@ -208,8 +208,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncDocugami) -> None:
         artifact = await async_client.projects.artifacts.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
         assert_matches_type(Artifact, artifact, path=["response"])
@@ -217,8 +217,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncDocugami) -> None:
         response = await async_client.projects.artifacts.with_raw_response.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
 
@@ -230,8 +230,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncDocugami) -> None:
         async with async_client.projects.artifacts.with_streaming_response.retrieve(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         ) as response:
             assert not response.is_closed
@@ -246,53 +246,53 @@ class TestAsyncArtifacts:
     async def test_path_params_retrieve(self, async_client: AsyncDocugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             await async_client.projects.artifacts.with_raw_response.retrieve(
-                "string",
+                artifact_id="artifactId",
                 project_id="",
                 version="1",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             await async_client.projects.artifacts.with_raw_response.retrieve(
-                "string",
-                project_id="string",
+                artifact_id="artifactId",
+                project_id="projectId",
                 version="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `artifact_id` but received ''"):
             await async_client.projects.artifacts.with_raw_response.retrieve(
-                "",
-                project_id="string",
+                artifact_id="",
+                project_id="projectId",
                 version="1",
             )
 
     @parametrize
     async def test_method_list(self, async_client: AsyncDocugami) -> None:
         artifact = await async_client.projects.artifacts.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         )
         assert_matches_type(AsyncArtifactsPage[Artifact], artifact, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncDocugami) -> None:
         artifact = await async_client.projects.artifacts.list(
-            "1",
-            project_id="string",
-            cursor="string",
-            document={"id": "string"},
+            version="1",
+            project_id="projectId",
+            cursor="cursor",
+            document={"id": "id"},
             is_read_only=True,
             limit=1,
             max_size=0,
             min_size=0,
-            name="string",
+            name="name",
         )
         assert_matches_type(AsyncArtifactsPage[Artifact], artifact, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncDocugami) -> None:
         response = await async_client.projects.artifacts.with_raw_response.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         )
 
         assert response.is_closed is True
@@ -303,8 +303,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncDocugami) -> None:
         async with async_client.projects.artifacts.with_streaming_response.list(
-            "1",
-            project_id="string",
+            version="1",
+            project_id="projectId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -318,21 +318,21 @@ class TestAsyncArtifacts:
     async def test_path_params_list(self, async_client: AsyncDocugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             await async_client.projects.artifacts.with_raw_response.list(
-                "1",
+                version="1",
                 project_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             await async_client.projects.artifacts.with_raw_response.list(
-                "",
-                project_id="string",
+                version="",
+                project_id="projectId",
             )
 
     @parametrize
     async def test_method_delete(self, async_client: AsyncDocugami) -> None:
         artifact = await async_client.projects.artifacts.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
         assert artifact is None
@@ -340,8 +340,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncDocugami) -> None:
         response = await async_client.projects.artifacts.with_raw_response.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         )
 
@@ -353,8 +353,8 @@ class TestAsyncArtifacts:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncDocugami) -> None:
         async with async_client.projects.artifacts.with_streaming_response.delete(
-            "string",
-            project_id="string",
+            artifact_id="artifactId",
+            project_id="projectId",
             version="1",
         ) as response:
             assert not response.is_closed
@@ -369,21 +369,21 @@ class TestAsyncArtifacts:
     async def test_path_params_delete(self, async_client: AsyncDocugami) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             await async_client.projects.artifacts.with_raw_response.delete(
-                "string",
+                artifact_id="artifactId",
                 project_id="",
                 version="1",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `version` but received ''"):
             await async_client.projects.artifacts.with_raw_response.delete(
-                "string",
-                project_id="string",
+                artifact_id="artifactId",
+                project_id="projectId",
                 version="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `artifact_id` but received ''"):
             await async_client.projects.artifacts.with_raw_response.delete(
-                "",
-                project_id="string",
+                artifact_id="",
+                project_id="projectId",
                 version="1",
             )

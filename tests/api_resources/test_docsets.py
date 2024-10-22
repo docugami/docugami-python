@@ -60,14 +60,14 @@ class TestDocsets:
     @parametrize
     def test_method_retrieve(self, client: Docugami) -> None:
         docset = client.docsets.retrieve(
-            "string",
+            "id",
         )
         assert_matches_type(Docset, docset, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Docugami) -> None:
         response = client.docsets.with_raw_response.retrieve(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -78,7 +78,7 @@ class TestDocsets:
     @parametrize
     def test_streaming_response_retrieve(self, client: Docugami) -> None:
         with client.docsets.with_streaming_response.retrieve(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -103,11 +103,11 @@ class TestDocsets:
     @parametrize
     def test_method_list_with_all_params(self, client: Docugami) -> None:
         docset = client.docsets.list(
-            cursor="string",
+            cursor="cursor",
             limit=1,
             max_documents=0,
             min_documents=0,
-            name="string",
+            name="name",
             samples=True,
         )
         assert_matches_type(SyncDocsetsPage[Docset], docset, path=["response"])
@@ -135,14 +135,14 @@ class TestDocsets:
     @parametrize
     def test_method_delete(self, client: Docugami) -> None:
         docset = client.docsets.delete(
-            "string",
+            "id",
         )
         assert docset is None
 
     @parametrize
     def test_raw_response_delete(self, client: Docugami) -> None:
         response = client.docsets.with_raw_response.delete(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -153,7 +153,7 @@ class TestDocsets:
     @parametrize
     def test_streaming_response_delete(self, client: Docugami) -> None:
         with client.docsets.with_streaming_response.delete(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -216,14 +216,14 @@ class TestAsyncDocsets:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncDocugami) -> None:
         docset = await async_client.docsets.retrieve(
-            "string",
+            "id",
         )
         assert_matches_type(Docset, docset, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncDocugami) -> None:
         response = await async_client.docsets.with_raw_response.retrieve(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -234,7 +234,7 @@ class TestAsyncDocsets:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncDocugami) -> None:
         async with async_client.docsets.with_streaming_response.retrieve(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -259,11 +259,11 @@ class TestAsyncDocsets:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncDocugami) -> None:
         docset = await async_client.docsets.list(
-            cursor="string",
+            cursor="cursor",
             limit=1,
             max_documents=0,
             min_documents=0,
-            name="string",
+            name="name",
             samples=True,
         )
         assert_matches_type(AsyncDocsetsPage[Docset], docset, path=["response"])
@@ -291,14 +291,14 @@ class TestAsyncDocsets:
     @parametrize
     async def test_method_delete(self, async_client: AsyncDocugami) -> None:
         docset = await async_client.docsets.delete(
-            "string",
+            "id",
         )
         assert docset is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncDocugami) -> None:
         response = await async_client.docsets.with_raw_response.delete(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -309,7 +309,7 @@ class TestAsyncDocsets:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncDocugami) -> None:
         async with async_client.docsets.with_streaming_response.delete(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
