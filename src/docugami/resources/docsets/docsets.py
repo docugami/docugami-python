@@ -29,10 +29,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ...pagination import SyncDocsetsPage, AsyncDocsetsPage
-from ..._base_client import (
-    AsyncPaginator,
-    make_request_options,
-)
+from ..._base_client import AsyncPaginator, make_request_options
 from ...types.docset import Docset
 
 __all__ = ["DocsetsResource", "AsyncDocsetsResource"]
@@ -45,10 +42,21 @@ class DocsetsResource(SyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> DocsetsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return DocsetsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> DocsetsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return DocsetsResourceWithStreamingResponse(self)
 
     def create(
@@ -234,10 +242,21 @@ class AsyncDocsetsResource(AsyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> AsyncDocsetsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return AsyncDocsetsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncDocsetsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return AsyncDocsetsResourceWithStreamingResponse(self)
 
     async def create(

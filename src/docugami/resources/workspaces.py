@@ -13,9 +13,7 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import (
-    make_request_options,
-)
+from .._base_client import make_request_options
 from ..types.workspace import Workspace
 
 __all__ = ["WorkspacesResource", "AsyncWorkspacesResource"]
@@ -24,10 +22,21 @@ __all__ = ["WorkspacesResource", "AsyncWorkspacesResource"]
 class WorkspacesResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> WorkspacesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return WorkspacesResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> WorkspacesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return WorkspacesResourceWithStreamingResponse(self)
 
     def get(
@@ -53,10 +62,21 @@ class WorkspacesResource(SyncAPIResource):
 class AsyncWorkspacesResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncWorkspacesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return AsyncWorkspacesResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncWorkspacesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return AsyncWorkspacesResourceWithStreamingResponse(self)
 
     async def get(
