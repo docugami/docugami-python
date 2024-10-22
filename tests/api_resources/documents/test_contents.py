@@ -28,9 +28,9 @@ class TestContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_method_download(self, client: Docugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         content = client.documents.contents.download(
-            "string",
+            "id",
         )
         assert content.is_closed
         assert content.json() == {"foo": "bar"}
@@ -40,10 +40,10 @@ class TestContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response_download(self, client: Docugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         content = client.documents.contents.with_raw_response.download(
-            "string",
+            "id",
         )
 
         assert content.is_closed is True
@@ -54,9 +54,9 @@ class TestContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download(self, client: Docugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.documents.contents.with_streaming_response.download(
-            "string",
+            "id",
         ) as content:
             assert not content.is_closed
             assert content.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -86,7 +86,7 @@ class TestContents:
     def test_method_upload_with_all_params(self, client: Docugami) -> None:
         content = client.documents.contents.upload(
             file=b"raw file contents",
-            docset_id="string",
+            docset_id="docset.id",
         )
         assert_matches_type(Document, content, path=["response"])
 
@@ -121,9 +121,9 @@ class TestAsyncContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download(self, async_client: AsyncDocugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         content = await async_client.documents.contents.download(
-            "string",
+            "id",
         )
         assert content.is_closed
         assert await content.json() == {"foo": "bar"}
@@ -133,10 +133,10 @@ class TestAsyncContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_raw_response_download(self, async_client: AsyncDocugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         content = await async_client.documents.contents.with_raw_response.download(
-            "string",
+            "id",
         )
 
         assert content.is_closed is True
@@ -147,9 +147,9 @@ class TestAsyncContents:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_streaming_response_download(self, async_client: AsyncDocugami, respx_mock: MockRouter) -> None:
-        respx_mock.get("/documents/string/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/documents/id/content").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.documents.contents.with_streaming_response.download(
-            "string",
+            "id",
         ) as content:
             assert not content.is_closed
             assert content.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -179,7 +179,7 @@ class TestAsyncContents:
     async def test_method_upload_with_all_params(self, async_client: AsyncDocugami) -> None:
         content = await async_client.documents.contents.upload(
             file=b"raw file contents",
-            docset_id="string",
+            docset_id="docset.id",
         )
         assert_matches_type(Document, content, path=["response"])
 

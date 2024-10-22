@@ -29,9 +29,7 @@ from ...._response import (
     async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
-from ...._base_client import (
-    make_request_options,
-)
+from ...._base_client import make_request_options
 from ....types.projects.artifact import Artifact
 from ....types.projects.artifacts import content_upload_params
 
@@ -41,10 +39,21 @@ __all__ = ["ContentsResource", "AsyncContentsResource"]
 class ContentsResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> ContentsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return ContentsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> ContentsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return ContentsResourceWithStreamingResponse(self)
 
     def download(
@@ -126,11 +135,10 @@ class ContentsResource(SyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             f"/projects/{project_id}/artifacts/{version}/content",
             body=maybe_transform(body, content_upload_params.ContentUploadParams),
@@ -145,10 +153,21 @@ class ContentsResource(SyncAPIResource):
 class AsyncContentsResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncContentsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
+        """
         return AsyncContentsResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncContentsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/docugami/docugami-python#with_streaming_response
+        """
         return AsyncContentsResourceWithStreamingResponse(self)
 
     async def download(
@@ -230,11 +249,10 @@ class AsyncContentsResource(AsyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             f"/projects/{project_id}/artifacts/{version}/content",
             body=await async_maybe_transform(body, content_upload_params.ContentUploadParams),

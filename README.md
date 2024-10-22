@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found [on api-docs.docugami.com](https://api-docs.docugami.com/). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [api-docs.docugami.com](https://api-docs.docugami.com/). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -74,7 +74,7 @@ List methods in the Docugami API are paginated.
 This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
 
 ```python
-import docugami
+from docugami import Docugami
 
 client = Docugami()
 
@@ -90,7 +90,7 @@ Or, asynchronously:
 
 ```python
 import asyncio
-import docugami
+from docugami import AsyncDocugami
 
 client = AsyncDocugami()
 
@@ -319,7 +319,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 - Support for proxies
 - Custom transports
-- Additional [advanced](https://www.python-httpx.org/advanced/#client-instances) functionality
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
 from docugami import Docugami, DefaultHttpxClient
@@ -332,6 +332,12 @@ client = Docugami(
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
 )
+```
+
+You can also customize the client on a per-request basis by using `with_options()`:
+
+```python
+client.with_options(http_client=DefaultHttpxClient(...))
 ```
 
 ### Managing HTTP resources
@@ -350,6 +356,21 @@ We take backwards-compatibility seriously and work hard to ensure you can rely o
 
 We are keen for your feedback; please open an [issue](https://www.github.com/docugami/docugami-python/issues) with questions, bugs, or suggestions.
 
+### Determining the installed version
+
+If you've upgraded to the latest version but aren't seeing any new features you were expecting then your python environment is likely still using an older version.
+
+You can determine the version that is being used at runtime with:
+
+```py
+import docugami
+print(docugami.__version__)
+```
+
 ## Requirements
 
 Python 3.7 or higher.
+
+## Contributing
+
+See [the contributing documentation](./CONTRIBUTING.md).

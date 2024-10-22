@@ -21,7 +21,7 @@ class TestWebhooks:
     @parametrize
     def test_method_create(self, client: Docugami) -> None:
         webhook = client.webhooks.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
@@ -29,10 +29,10 @@ class TestWebhooks:
     @parametrize
     def test_method_create_with_all_params(self, client: Docugami) -> None:
         webhook = client.webhooks.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
             events=["Documents.Create", "Documents.Delete", "Docset.Document.Add"],
-            secret="string",
+            secret="secret",
             target_id="0gjiwhvpeqcg",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
@@ -40,7 +40,7 @@ class TestWebhooks:
     @parametrize
     def test_raw_response_create(self, client: Docugami) -> None:
         response = client.webhooks.with_raw_response.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         )
 
@@ -52,7 +52,7 @@ class TestWebhooks:
     @parametrize
     def test_streaming_response_create(self, client: Docugami) -> None:
         with client.webhooks.with_streaming_response.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         ) as response:
             assert not response.is_closed
@@ -66,14 +66,14 @@ class TestWebhooks:
     @parametrize
     def test_method_retrieve(self, client: Docugami) -> None:
         webhook = client.webhooks.retrieve(
-            "string",
+            "id",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Docugami) -> None:
         response = client.webhooks.with_raw_response.retrieve(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -84,7 +84,7 @@ class TestWebhooks:
     @parametrize
     def test_streaming_response_retrieve(self, client: Docugami) -> None:
         with client.webhooks.with_streaming_response.retrieve(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -109,9 +109,9 @@ class TestWebhooks:
     @parametrize
     def test_method_list_with_all_params(self, client: Docugami) -> None:
         webhook = client.webhooks.list(
-            cursor="string",
+            cursor="cursor",
             limit=1,
-            target="Project",
+            target="Documents",
             target_id="0gjiwhvpeqcg",
         )
         assert_matches_type(SyncWebhooksPage[Webhook], webhook, path=["response"])
@@ -139,14 +139,14 @@ class TestWebhooks:
     @parametrize
     def test_method_delete(self, client: Docugami) -> None:
         webhook = client.webhooks.delete(
-            "string",
+            "id",
         )
         assert webhook is None
 
     @parametrize
     def test_raw_response_delete(self, client: Docugami) -> None:
         response = client.webhooks.with_raw_response.delete(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -157,7 +157,7 @@ class TestWebhooks:
     @parametrize
     def test_streaming_response_delete(self, client: Docugami) -> None:
         with client.webhooks.with_streaming_response.delete(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -181,7 +181,7 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_create(self, async_client: AsyncDocugami) -> None:
         webhook = await async_client.webhooks.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
@@ -189,10 +189,10 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncDocugami) -> None:
         webhook = await async_client.webhooks.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
             events=["Documents.Create", "Documents.Delete", "Docset.Document.Add"],
-            secret="string",
+            secret="secret",
             target_id="0gjiwhvpeqcg",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
@@ -200,7 +200,7 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncDocugami) -> None:
         response = await async_client.webhooks.with_raw_response.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         )
 
@@ -212,7 +212,7 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncDocugami) -> None:
         async with async_client.webhooks.with_streaming_response.create(
-            target="Project",
+            target="Documents",
             url="https://example.com/docugami-callback",
         ) as response:
             assert not response.is_closed
@@ -226,14 +226,14 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncDocugami) -> None:
         webhook = await async_client.webhooks.retrieve(
-            "string",
+            "id",
         )
         assert_matches_type(Webhook, webhook, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncDocugami) -> None:
         response = await async_client.webhooks.with_raw_response.retrieve(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -244,7 +244,7 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncDocugami) -> None:
         async with async_client.webhooks.with_streaming_response.retrieve(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -269,9 +269,9 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncDocugami) -> None:
         webhook = await async_client.webhooks.list(
-            cursor="string",
+            cursor="cursor",
             limit=1,
-            target="Project",
+            target="Documents",
             target_id="0gjiwhvpeqcg",
         )
         assert_matches_type(AsyncWebhooksPage[Webhook], webhook, path=["response"])
@@ -299,14 +299,14 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_delete(self, async_client: AsyncDocugami) -> None:
         webhook = await async_client.webhooks.delete(
-            "string",
+            "id",
         )
         assert webhook is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncDocugami) -> None:
         response = await async_client.webhooks.with_raw_response.delete(
-            "string",
+            "id",
         )
 
         assert response.is_closed is True
@@ -317,7 +317,7 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncDocugami) -> None:
         async with async_client.webhooks.with_streaming_response.delete(
-            "string",
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
