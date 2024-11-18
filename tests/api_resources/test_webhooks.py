@@ -31,7 +31,7 @@ class TestWebhooks:
         webhook = client.webhooks.create(
             target="Documents",
             url="https://example.com/docugami-callback",
-            events=["Documents.Create", "Documents.Delete", "Docset.Document.Add"],
+            events=["Documents.Create"],
             secret="secret",
             target_id="0gjiwhvpeqcg",
         )
@@ -191,7 +191,7 @@ class TestAsyncWebhooks:
         webhook = await async_client.webhooks.create(
             target="Documents",
             url="https://example.com/docugami-callback",
-            events=["Documents.Create", "Documents.Delete", "Docset.Document.Add"],
+            events=["Documents.Create"],
             secret="secret",
             target_id="0gjiwhvpeqcg",
         )
