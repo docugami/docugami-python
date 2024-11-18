@@ -29,7 +29,7 @@ class TestDocsets:
     def test_method_create_with_all_params(self, client: Docugami) -> None:
         docset = client.docsets.create(
             name="Loss Runs",
-            documents=["bn0px5iaym7z", "bn0px5iaym7z", "bn0px5iaym7z"],
+            documents=["bn0px5iaym7z"],
         )
         assert_matches_type(Docset, docset, path=["response"])
 
@@ -185,7 +185,7 @@ class TestAsyncDocsets:
     async def test_method_create_with_all_params(self, async_client: AsyncDocugami) -> None:
         docset = await async_client.docsets.create(
             name="Loss Runs",
-            documents=["bn0px5iaym7z", "bn0px5iaym7z", "bn0px5iaym7z"],
+            documents=["bn0px5iaym7z"],
         )
         assert_matches_type(Docset, docset, path=["response"])
 
