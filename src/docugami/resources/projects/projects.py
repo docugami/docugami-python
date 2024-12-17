@@ -10,14 +10,6 @@ from ...types import project_list_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NoneType, NotGiven
 from ..._utils import maybe_transform
 from ..._compat import cached_property
-from .artifacts import (
-    ArtifactsResource,
-    AsyncArtifactsResource,
-    ArtifactsResourceWithRawResponse,
-    AsyncArtifactsResourceWithRawResponse,
-    ArtifactsResourceWithStreamingResponse,
-    AsyncArtifactsResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -28,7 +20,14 @@ from ..._response import (
 from ...pagination import SyncProjectsPage, AsyncProjectsPage
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.project import Project
-from .artifacts.artifacts import ArtifactsResource, AsyncArtifactsResource
+from .artifacts.artifacts import (
+    ArtifactsResource,
+    AsyncArtifactsResource,
+    ArtifactsResourceWithRawResponse,
+    AsyncArtifactsResourceWithRawResponse,
+    ArtifactsResourceWithStreamingResponse,
+    AsyncArtifactsResourceWithStreamingResponse,
+)
 
 __all__ = ["ProjectsResource", "AsyncProjectsResource"]
 
