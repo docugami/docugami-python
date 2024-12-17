@@ -95,7 +95,7 @@ class ArtifactsResource(SyncAPIResource):
 
     def list(
         self,
-        version: str,
+        version: str | NotGiven = NOT_GIVEN,
         *,
         project_id: str,
         cursor: str | NotGiven = NOT_GIVEN,
@@ -271,7 +271,7 @@ class AsyncArtifactsResource(AsyncAPIResource):
 
     def list(
         self,
-        version: str,
+        version: str | NotGiven = NOT_GIVEN,
         *,
         project_id: str,
         cursor: str | NotGiven = NOT_GIVEN,

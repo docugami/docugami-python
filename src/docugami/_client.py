@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import _exceptions
+from . import resources, _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -24,7 +24,6 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import webhooks, workspaces
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import DocugamiError, APIStatusError
 from ._base_client import (
@@ -32,15 +31,13 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.docsets import docsets
-from .resources.projects import projects
-from .resources.documents import documents
 
 __all__ = [
     "Timeout",
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
+    "resources",
     "Docugami",
     "AsyncDocugami",
     "Client",
@@ -49,11 +46,11 @@ __all__ = [
 
 
 class Docugami(SyncAPIClient):
-    documents: documents.DocumentsResource
-    docsets: docsets.DocsetsResource
-    projects: projects.ProjectsResource
-    workspaces: workspaces.WorkspacesResource
-    webhooks: webhooks.WebhooksResource
+    documents: resources.DocumentsResource
+    docsets: resources.DocsetsResource
+    projects: resources.ProjectsResource
+    workspaces: resources.WorkspacesResource
+    webhooks: resources.WebhooksResource
     with_raw_response: DocugamiWithRawResponse
     with_streaming_response: DocugamiWithStreamedResponse
 
@@ -111,11 +108,11 @@ class Docugami(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.documents = documents.DocumentsResource(self)
-        self.docsets = docsets.DocsetsResource(self)
-        self.projects = projects.ProjectsResource(self)
-        self.workspaces = workspaces.WorkspacesResource(self)
-        self.webhooks = webhooks.WebhooksResource(self)
+        self.documents = resources.DocumentsResource(self)
+        self.docsets = resources.DocsetsResource(self)
+        self.projects = resources.ProjectsResource(self)
+        self.workspaces = resources.WorkspacesResource(self)
+        self.webhooks = resources.WebhooksResource(self)
         self.with_raw_response = DocugamiWithRawResponse(self)
         self.with_streaming_response = DocugamiWithStreamedResponse(self)
 
@@ -225,11 +222,11 @@ class Docugami(SyncAPIClient):
 
 
 class AsyncDocugami(AsyncAPIClient):
-    documents: documents.AsyncDocumentsResource
-    docsets: docsets.AsyncDocsetsResource
-    projects: projects.AsyncProjectsResource
-    workspaces: workspaces.AsyncWorkspacesResource
-    webhooks: webhooks.AsyncWebhooksResource
+    documents: resources.AsyncDocumentsResource
+    docsets: resources.AsyncDocsetsResource
+    projects: resources.AsyncProjectsResource
+    workspaces: resources.AsyncWorkspacesResource
+    webhooks: resources.AsyncWebhooksResource
     with_raw_response: AsyncDocugamiWithRawResponse
     with_streaming_response: AsyncDocugamiWithStreamedResponse
 
@@ -287,11 +284,11 @@ class AsyncDocugami(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.documents = documents.AsyncDocumentsResource(self)
-        self.docsets = docsets.AsyncDocsetsResource(self)
-        self.projects = projects.AsyncProjectsResource(self)
-        self.workspaces = workspaces.AsyncWorkspacesResource(self)
-        self.webhooks = webhooks.AsyncWebhooksResource(self)
+        self.documents = resources.AsyncDocumentsResource(self)
+        self.docsets = resources.AsyncDocsetsResource(self)
+        self.projects = resources.AsyncProjectsResource(self)
+        self.workspaces = resources.AsyncWorkspacesResource(self)
+        self.webhooks = resources.AsyncWebhooksResource(self)
         self.with_raw_response = AsyncDocugamiWithRawResponse(self)
         self.with_streaming_response = AsyncDocugamiWithStreamedResponse(self)
 
@@ -402,38 +399,38 @@ class AsyncDocugami(AsyncAPIClient):
 
 class DocugamiWithRawResponse:
     def __init__(self, client: Docugami) -> None:
-        self.documents = documents.DocumentsResourceWithRawResponse(client.documents)
-        self.docsets = docsets.DocsetsResourceWithRawResponse(client.docsets)
-        self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
-        self.workspaces = workspaces.WorkspacesResourceWithRawResponse(client.workspaces)
-        self.webhooks = webhooks.WebhooksResourceWithRawResponse(client.webhooks)
+        self.documents = resources.DocumentsResourceWithRawResponse(client.documents)
+        self.docsets = resources.DocsetsResourceWithRawResponse(client.docsets)
+        self.projects = resources.ProjectsResourceWithRawResponse(client.projects)
+        self.workspaces = resources.WorkspacesResourceWithRawResponse(client.workspaces)
+        self.webhooks = resources.WebhooksResourceWithRawResponse(client.webhooks)
 
 
 class AsyncDocugamiWithRawResponse:
     def __init__(self, client: AsyncDocugami) -> None:
-        self.documents = documents.AsyncDocumentsResourceWithRawResponse(client.documents)
-        self.docsets = docsets.AsyncDocsetsResourceWithRawResponse(client.docsets)
-        self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
-        self.workspaces = workspaces.AsyncWorkspacesResourceWithRawResponse(client.workspaces)
-        self.webhooks = webhooks.AsyncWebhooksResourceWithRawResponse(client.webhooks)
+        self.documents = resources.AsyncDocumentsResourceWithRawResponse(client.documents)
+        self.docsets = resources.AsyncDocsetsResourceWithRawResponse(client.docsets)
+        self.projects = resources.AsyncProjectsResourceWithRawResponse(client.projects)
+        self.workspaces = resources.AsyncWorkspacesResourceWithRawResponse(client.workspaces)
+        self.webhooks = resources.AsyncWebhooksResourceWithRawResponse(client.webhooks)
 
 
 class DocugamiWithStreamedResponse:
     def __init__(self, client: Docugami) -> None:
-        self.documents = documents.DocumentsResourceWithStreamingResponse(client.documents)
-        self.docsets = docsets.DocsetsResourceWithStreamingResponse(client.docsets)
-        self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
-        self.workspaces = workspaces.WorkspacesResourceWithStreamingResponse(client.workspaces)
-        self.webhooks = webhooks.WebhooksResourceWithStreamingResponse(client.webhooks)
+        self.documents = resources.DocumentsResourceWithStreamingResponse(client.documents)
+        self.docsets = resources.DocsetsResourceWithStreamingResponse(client.docsets)
+        self.projects = resources.ProjectsResourceWithStreamingResponse(client.projects)
+        self.workspaces = resources.WorkspacesResourceWithStreamingResponse(client.workspaces)
+        self.webhooks = resources.WebhooksResourceWithStreamingResponse(client.webhooks)
 
 
 class AsyncDocugamiWithStreamedResponse:
     def __init__(self, client: AsyncDocugami) -> None:
-        self.documents = documents.AsyncDocumentsResourceWithStreamingResponse(client.documents)
-        self.docsets = docsets.AsyncDocsetsResourceWithStreamingResponse(client.docsets)
-        self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
-        self.workspaces = workspaces.AsyncWorkspacesResourceWithStreamingResponse(client.workspaces)
-        self.webhooks = webhooks.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
+        self.documents = resources.AsyncDocumentsResourceWithStreamingResponse(client.documents)
+        self.docsets = resources.AsyncDocsetsResourceWithStreamingResponse(client.docsets)
+        self.projects = resources.AsyncProjectsResourceWithStreamingResponse(client.projects)
+        self.workspaces = resources.AsyncWorkspacesResourceWithStreamingResponse(client.workspaces)
+        self.webhooks = resources.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
 
 
 Client = Docugami
