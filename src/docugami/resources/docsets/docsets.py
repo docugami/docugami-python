@@ -43,7 +43,7 @@ class DocsetsResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> DocsetsResourceWithRawResponse:
         """
-        This property can be used as a prefix for any HTTP method call to return the
+        This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
@@ -243,7 +243,7 @@ class AsyncDocsetsResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncDocsetsResourceWithRawResponse:
         """
-        This property can be used as a prefix for any HTTP method call to return the
+        This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/docugami/docugami-python#accessing-raw-response-data-eg-headers
