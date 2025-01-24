@@ -1,11 +1,10 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Generic, Optional
+from typing import List, Generic, TypeVar, Optional
 from typing_extensions import override
 
 import httpx
 
-from ._types import ModelT
 from ._base_client import BasePage, PageInfo, BaseSyncPage, BaseAsyncPage
 
 __all__ = [
@@ -23,13 +22,15 @@ __all__ = [
     "AsyncArtifactsPage",
 ]
 
+_T = TypeVar("_T")
 
-class SyncDocumentsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    documents: List[ModelT]
+
+class SyncDocumentsPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    documents: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         documents = self.documents
         if not documents:
             return []
@@ -44,12 +45,12 @@ class SyncDocumentsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT])
         return PageInfo(url=httpx.URL(url))
 
 
-class AsyncDocumentsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    documents: List[ModelT]
+class AsyncDocumentsPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    documents: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         documents = self.documents
         if not documents:
             return []
@@ -64,12 +65,12 @@ class AsyncDocumentsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT
         return PageInfo(url=httpx.URL(url))
 
 
-class SyncDocsetsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    docsets: List[ModelT]
+class SyncDocsetsPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    docsets: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         docsets = self.docsets
         if not docsets:
             return []
@@ -84,12 +85,12 @@ class SyncDocsetsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
         return PageInfo(url=httpx.URL(url))
 
 
-class AsyncDocsetsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    docsets: List[ModelT]
+class AsyncDocsetsPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    docsets: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         docsets = self.docsets
         if not docsets:
             return []
@@ -104,11 +105,11 @@ class AsyncDocsetsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT])
         return PageInfo(url=httpx.URL(url))
 
 
-class SyncPagesPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    pages: List[ModelT]
+class SyncPagesPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    pages: List[_T]
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         pages = self.pages
         if not pages:
             return []
@@ -123,11 +124,11 @@ class SyncPagesPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
         return None
 
 
-class AsyncPagesPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    pages: List[ModelT]
+class AsyncPagesPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    pages: List[_T]
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         pages = self.pages
         if not pages:
             return []
@@ -142,12 +143,12 @@ class AsyncPagesPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
         return None
 
 
-class SyncProjectsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    projects: List[ModelT]
+class SyncProjectsPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    projects: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         projects = self.projects
         if not projects:
             return []
@@ -162,12 +163,12 @@ class SyncProjectsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
         return PageInfo(url=httpx.URL(url))
 
 
-class AsyncProjectsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    projects: List[ModelT]
+class AsyncProjectsPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    projects: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         projects = self.projects
         if not projects:
             return []
@@ -182,12 +183,12 @@ class AsyncProjectsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]
         return PageInfo(url=httpx.URL(url))
 
 
-class SyncWebhooksPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    webhooks: List[ModelT]
+class SyncWebhooksPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    webhooks: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         webhooks = self.webhooks
         if not webhooks:
             return []
@@ -202,12 +203,12 @@ class SyncWebhooksPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
         return PageInfo(url=httpx.URL(url))
 
 
-class AsyncWebhooksPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    webhooks: List[ModelT]
+class AsyncWebhooksPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    webhooks: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         webhooks = self.webhooks
         if not webhooks:
             return []
@@ -222,12 +223,12 @@ class AsyncWebhooksPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]
         return PageInfo(url=httpx.URL(url))
 
 
-class SyncArtifactsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    artifacts: List[ModelT]
+class SyncArtifactsPage(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+    artifacts: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         artifacts = self.artifacts
         if not artifacts:
             return []
@@ -242,12 +243,12 @@ class SyncArtifactsPage(BaseSyncPage[ModelT], BasePage[ModelT], Generic[ModelT])
         return PageInfo(url=httpx.URL(url))
 
 
-class AsyncArtifactsPage(BaseAsyncPage[ModelT], BasePage[ModelT], Generic[ModelT]):
-    artifacts: List[ModelT]
+class AsyncArtifactsPage(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+    artifacts: List[_T]
     next: Optional[str] = None
 
     @override
-    def _get_page_items(self) -> List[ModelT]:
+    def _get_page_items(self) -> List[_T]:
         artifacts = self.artifacts
         if not artifacts:
             return []

@@ -1,1 +1,2 @@
-configured_endpoints: 27
+configured_endpoints: 30
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/docugami%2Fdocugami-7d314567db8380ea45ea921a56b54157ab12e2c3fd13397cf018ffed08a4a283.yml

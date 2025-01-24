@@ -1,25 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .projects import (
-    Projects,
-    AsyncProjects,
-    ProjectsWithRawResponse,
-    AsyncProjectsWithRawResponse,
+    ProjectsResource,
+    AsyncProjectsResource,
+    ProjectsResourceWithRawResponse,
+    AsyncProjectsResourceWithRawResponse,
+    ProjectsResourceWithStreamingResponse,
+    AsyncProjectsResourceWithStreamingResponse,
 )
 from .artifacts import (
-    Artifacts,
-    AsyncArtifacts,
-    ArtifactsWithRawResponse,
-    AsyncArtifactsWithRawResponse,
+    ArtifactsResource,
+    AsyncArtifactsResource,
+    ArtifactsResourceWithRawResponse,
+    AsyncArtifactsResourceWithRawResponse,
+    ArtifactsResourceWithStreamingResponse,
+    AsyncArtifactsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Artifacts",
-    "AsyncArtifacts",
-    "ArtifactsWithRawResponse",
-    "AsyncArtifactsWithRawResponse",
-    "Projects",
-    "AsyncProjects",
-    "ProjectsWithRawResponse",
-    "AsyncProjectsWithRawResponse",
+    "ArtifactsResource",
+    "AsyncArtifactsResource",
+    "ArtifactsResourceWithRawResponse",
+    "AsyncArtifactsResourceWithRawResponse",
+    "ArtifactsResourceWithStreamingResponse",
+    "AsyncArtifactsResourceWithStreamingResponse",
+    "ProjectsResource",
+    "AsyncProjectsResource",
+    "ProjectsResourceWithRawResponse",
+    "AsyncProjectsResourceWithRawResponse",
+    "ProjectsResourceWithStreamingResponse",
+    "AsyncProjectsResourceWithStreamingResponse",
 ]

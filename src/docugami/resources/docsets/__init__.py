@@ -1,25 +1,33 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .docsets import (
-    Docsets,
-    AsyncDocsets,
-    DocsetsWithRawResponse,
-    AsyncDocsetsWithRawResponse,
+    DocsetsResource,
+    AsyncDocsetsResource,
+    DocsetsResourceWithRawResponse,
+    AsyncDocsetsResourceWithRawResponse,
+    DocsetsResourceWithStreamingResponse,
+    AsyncDocsetsResourceWithStreamingResponse,
 )
 from .documents import (
-    Documents,
-    AsyncDocuments,
-    DocumentsWithRawResponse,
-    AsyncDocumentsWithRawResponse,
+    DocumentsResource,
+    AsyncDocumentsResource,
+    DocumentsResourceWithRawResponse,
+    AsyncDocumentsResourceWithRawResponse,
+    DocumentsResourceWithStreamingResponse,
+    AsyncDocumentsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "Documents",
-    "AsyncDocuments",
-    "DocumentsWithRawResponse",
-    "AsyncDocumentsWithRawResponse",
-    "Docsets",
-    "AsyncDocsets",
-    "DocsetsWithRawResponse",
-    "AsyncDocsetsWithRawResponse",
+    "DocumentsResource",
+    "AsyncDocumentsResource",
+    "DocumentsResourceWithRawResponse",
+    "AsyncDocumentsResourceWithRawResponse",
+    "DocumentsResourceWithStreamingResponse",
+    "AsyncDocumentsResourceWithStreamingResponse",
+    "DocsetsResource",
+    "AsyncDocsetsResource",
+    "DocsetsResourceWithRawResponse",
+    "AsyncDocsetsResourceWithRawResponse",
+    "DocsetsResourceWithStreamingResponse",
+    "AsyncDocsetsResourceWithStreamingResponse",
 ]
