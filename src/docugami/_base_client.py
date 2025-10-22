@@ -751,7 +751,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
-            proxies=proxies,
+            proxy=proxies,
             transport=transport,
             limits=limits,
         )
@@ -1214,7 +1214,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
-            proxies=proxies,
+            proxy=proxies,
             transport=transport,
             limits=limits,
         )
